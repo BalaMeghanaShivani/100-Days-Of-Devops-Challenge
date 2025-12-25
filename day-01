@@ -1,1 +1,96 @@
+# Day 01 – Understanding Application Architecture & Linux Users
+
+## 🔹 Objective
+To understand the basic architecture of a real-world enterprise application and create a non-interactive system user on an application server as required by a backup agent.
+
+---
+
+## 🔹 Project Context (Nautilus Application)
+
+Project Nautilus is a three-tier web application used by naval forces for operational and procurement decision support.
+
+The application follows a standard enterprise architecture deployed in a data center.
+
+### Architecture Overview
+- **Client Tier**: Web browsers used by end users
+- **Load Balancer**: Nginx, distributes HTTP traffic
+- **Application Tier**: Multiple app servers running a LAMP stack
+- **Data Tier**: MariaDB database server
+- **Shared Services**: Storage, Backup, Mail servers
+- **Jump Server**: Secure entry point for administrators
+
+---
+
+## 🔹 Key Architecture Concepts Learned
+
+### 1. Three-Tier Architecture
+- **Client Tier** sends HTTP requests
+- **Application Tier** processes business logic
+- **Data Tier** stores persistent data
+
+This separation improves scalability, security, and reliability.
+
+---
+
+### 2. Role of App Servers
+- App servers run application logic (PHP in LAMP stack)
+- Multiple app servers exist for high availability
+- Any app server should be able to handle any request
+- App servers are stateless and interchangeable
+
+---
+
+### 3. Role of Load Balancer
+- Receives all incoming HTTP requests
+- Routes traffic to healthy app servers
+- Does NOT care about Linux users or permissions
+- Ensures fault tolerance and scalability
+
+---
+
+### 4. Jump Server Concept
+- Acts as a secure gateway into the infrastructure
+- Administrators access internal servers via jump server
+- Improves security and auditing
+
+---
+
+## 🔹 Linux Users: Core Understanding
+
+### System (Linux) Users vs Application Users
+- **System users** exist at OS level (used for services, automation)
+- **Application users** exist inside the web application
+- These two concepts are completely separate
+
+---
+
+### Why Multiple Linux Users Exist
+- Separation of responsibility
+- Least privilege access
+- Security and auditing
+- Safer automation
+
+Linux users do NOT have separate copies of data.  
+They only have different **permissions** on the same system.
+
+---
+
+### Non-Interactive Users
+- Used by services, agents, and automation
+- Cannot log in via SSH
+- Do not provide a terminal to humans
+- Still able to run processes and own files
+
+---
+
+## 🔹 Task Performed
+
+### Requirement
+Create a user named `ravi` with a **non-interactive shell** on **App Server 1** to meet backup agent specifications.
+
+---
+
+### Command Used
+```bash
+sudo useradd -r -s /sbin/nologin ravi
 
